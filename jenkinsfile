@@ -1,31 +1,19 @@
-{
+pipeline {
     agent any
-    
+
     environment {
         PATH = "/opt/homebrew/bin:$PATH"
     }
 
     stages {
-        stage('git clone') {
+        stage('Git Clone') {
             steps {
-                git branch: 'main', url: 'https://github.com/vrk1999/terraform-practice.git'
+                git branch: 'main', url: 'https://github.com/vrk1999/jenkins-terraform.git'
             }
         }
-        stage('tf init') {
+        stage('Terraform Init') {
             steps {
-                dir('day-2') {
-                    sh 'terraform init'
-                }
-            }
-        }
-        stage('tf plan and apply') {
-            steps {
-                dir('day-2') {
-                    sh '''
-                    terraform plan
-                    terraform destroy -auto-approve
-                    '''
-                }
+                sh 'terraform init'
             }
         }
     }
