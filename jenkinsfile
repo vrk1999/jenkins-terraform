@@ -1,0 +1,32 @@
+{
+    agent any
+    
+    environment {
+        PATH = "/opt/homebrew/bin:$PATH"
+    }
+
+    stages {
+        stage('git clone') {
+            steps {
+                git branch: 'main', url: 'https://github.com/vrk1999/terraform-practice.git'
+            }
+        }
+        stage('tf init') {
+            steps {
+                dir('day-2') {
+                    sh 'terraform init'
+                }
+            }
+        }
+        stage('tf plan and apply') {
+            steps {
+                dir('day-2') {
+                    sh '''
+                    terraform plan
+                    terraform destroy -auto-approve
+                    '''
+                }
+            }
+        }
+    }
+}
